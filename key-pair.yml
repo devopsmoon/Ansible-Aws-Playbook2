@@ -1,0 +1,19 @@
+- name: this playbook will create keypair in aws
+  hosts: localhost
+  become: true
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: sample key pair is created in aws
+      ec2_key:
+        name: rayan
+        region: "{{region}}"
+      register: keyout
+
+    - debug:
+        var: keyout
+
+    - name:
+      copy:
+        content: "{{keyout.key.private_key}}"
+        dest: /root/Ansible-Aws-Playbook/rayan-key.pem
